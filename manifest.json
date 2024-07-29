@@ -1,0 +1,14 @@
+{
+	"manifest_version": 3,
+	"name": "PixelBin.io Extension",
+	"version": "1.0",
+	"background": {
+		"service_worker": "background.js"
+	},
+	"permissions": ["contextMenus", "activeTab", "scripting", "tabs"],
+	"host_permissions": ["https://*/*", "http://*/*", "<all_urls>"],
+	"icons": {
+		"32": "./public/pixb_logo.png",
+		"64": "./public/pixb_logo_64.png"
+	}
+}
