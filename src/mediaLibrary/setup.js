@@ -1,4 +1,4 @@
-import "../node_modules/xyzWidget/dist/bundle.js";
+import "../../node_modules/xyzWidget/dist/bundle.js";
 
 document.getElementById("open-btn").addEventListener("click", () => {
 	window.pixelbin.createMediaLibrary(
