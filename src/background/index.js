@@ -20,7 +20,7 @@ chrome.runtime.onInstalled.addListener(() => {
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
 	if (info.menuItemId === "openInFrame") {
-		activeTabId = tab.id; // Store the ID of the tab that triggered the context menu
+		activeTabId = tab.id;
 
 		chrome.windows.create(
 			{
@@ -41,5 +41,21 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 	if (message.type === "getActiveTabId") {
 		sendResponse({ activeTabId });
+	} else if (message.type === "openMenu") {
+		chrome.windows.create(
+			{
+				url: `./src/contextMenu/popup.html?imageUrl=${encodeURIComponent(
+					message.imageUrl
+				)}`,
+				type: "popup",
+				width: 800,
+				height: 600,
+			},
+			() => {
+				if (chrome.runtime.lastError) {
+					console.error(chrome.runtime.lastError);
+				}
+			}
+		);
 	}
 });

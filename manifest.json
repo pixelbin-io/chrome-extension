@@ -3,12 +3,18 @@
 	"name": "PixelBin.io Extension",
 	"version": "1.0",
 	"background": {
-		"service_worker": "background.js"
+		"service_worker": "./src/background/index.js"
 	},
 	"permissions": ["contextMenus", "activeTab", "scripting", "tabs"],
 	"host_permissions": ["https://*/*", "http://*/*", "<all_urls>"],
 	"icons": {
 		"32": "./public/pixb_logo.png",
 		"64": "./public/pixb_logo_64.png"
-	}
+	},
+	"content_scripts": [
+		{
+			"matches": ["<all_urls>"],
+			"js": ["./src/content/index.js"]
+		}
+	]
 }
