@@ -1,11 +1,11 @@
 const options = {
 	root: document.documentElement,
-	threshold: 0.25,
+	threshold: 0.25, // Adjust threshold as needed
 };
 
-new IntersectionObserver((entries) => {
+const observer = new IntersectionObserver((entries, observer) => {
 	entries.forEach((entry) => {
-		if (entry.isIntersecting && entry.target.tagName === "IMG") {
+		if (entry.isIntersecting) {
 			const img = entry.target;
 			if (img.naturalWidth > 50 && img.naturalHeight > 50) {
 				const iconContainer = document.createElement("div");
@@ -18,16 +18,14 @@ new IntersectionObserver((entries) => {
 				iconContainer.style.paddingTop = "0px";
 				iconContainer.style.opacity = "0";
 				iconContainer.style.transition = "opacity 0.3s";
-				iconContainer.style.zIndex = "1000";
 
 				const icon = document.createElement("img");
 				icon.src =
-					"https://cdn.pixelbin.io/v2/muddy-lab-41820d/original/pixb_logo_64.png";
+					"https://cdn.pixelbin.io/v2/muddy-lab-41820d/original/pixb_logo_64.png"; // Replace with your icon URL
 				icon.style.width = "24px";
 				icon.style.marginBottom = "-6px";
 				icon.style.height = "24px";
 				icon.style.cursor = "pointer";
-				icon.style.zIndex = "1000";
 				iconContainer.appendChild(icon);
 
 				img.style.position = "relative";
@@ -48,9 +46,10 @@ new IntersectionObserver((entries) => {
 					chrome.runtime.sendMessage({ type: "openMenu", imageUrl: img.src });
 				});
 			}
+			observer.unobserve(img); // Stop observing the image after processing
 		}
 	});
-});
+}, options);
 
 document.querySelectorAll("img").forEach((img) => {
 	observer.observe(img);
