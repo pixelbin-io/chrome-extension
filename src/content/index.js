@@ -20,6 +20,7 @@ document.addEventListener("mouseover", (event) => {
 			iconContainer.style.paddingTop = "0px";
 			iconContainer.style.opacity = "0";
 			iconContainer.style.transition = "opacity 0.3s";
+			iconContainer.style.zIndex = "100000";
 
 			const icon = document.createElement("img");
 			icon.src =
@@ -29,6 +30,8 @@ document.addEventListener("mouseover", (event) => {
 			icon.style.marginBottom = "-6px";
 			icon.style.height = "24px";
 			icon.style.cursor = "pointer";
+			icon.style.zIndex = "100000";
+
 			iconContainer.appendChild(icon);
 
 			img.style.position = "relative";
@@ -58,9 +61,9 @@ document.addEventListener("mouseover", (event) => {
 			});
 
 			// Click event for the icon
-			icon.addEventListener("click", () => {
-				chrome.runtime.sendMessage({ type: "openMenu", imageUrl: img.src });
-			});
+			// icon.addEventListener("click", () => {
+			// 	chrome.runtime.sendMessage({ type: "openMenu", imageUrl: img.src });
+			// });
 		}
 	}
 });
