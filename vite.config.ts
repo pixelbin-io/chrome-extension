@@ -46,7 +46,7 @@ export default defineConfig({
 		rollupOptions: {
 			input: {
 				background: "src/background/index.js",
-				content: "src/content/index.js",
+				content: "src/content/index.jsx",
 			},
 			output: {
 				entryFileNames: "[name].js",
