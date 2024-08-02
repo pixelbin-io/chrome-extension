@@ -39,9 +39,21 @@ export default defineConfig({
 					src: "node_modules/xyzWidget/dist/bundle.js",
 					dest: "node_modules/xyzWidget/dist",
 				},
+				{
+					src: "src/content/style.css",
+					dest: ".",
+					rename: "content.css",
+				},
 			],
 		}),
 	],
+	css: {
+		preprocessorOptions: {
+			css: {
+				additionalData: '@import "./src/content/style.css";',
+			},
+		},
+	},
 	build: {
 		rollupOptions: {
 			input: {

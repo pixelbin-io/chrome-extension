@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import "./style.css";
 
 function Main() {
 	return (
@@ -7,6 +8,7 @@ function Main() {
 			<img
 				src="https://cdn.pixelbin.io/v2/muddy-lab-41820d/original/pixb_logo_64.png"
 				alt="PixelBin AI Icon"
+				className="context-logo"
 				style={{ width: "24px", height: "24px", cursor: "pointer" }}
 			/>
 		</div>
@@ -16,11 +18,7 @@ function Main() {
 document.addEventListener("mouseover", (event) => {
 	// Check if the hovered element is an image
 	const img = event.target;
-	if (
-		img.tagName === "IMG" &&
-		img.naturalWidth > 50 &&
-		img.naturalHeight > 50
-	) {
+	if (img.tagName === "IMG" && img.width > 50 && img.height > 50) {
 		// Create the React component container if it doesn't already exist
 		if (!img.parentElement.querySelector("#react-container")) {
 			const reactContainer = document.createElement("div");
@@ -38,9 +36,11 @@ document.addEventListener("mouseover", (event) => {
 			ReactDOM.render(<Main />, reactContainer);
 
 			// Event listener for showing the React component container
-			img.parentElement.addEventListener("mouseenter", () => {
-				reactContainer.style.opacity = "1";
-				reactContainer.style.pointerEvents = "auto";
+			img.parentElement.addEventListener("mouseenter", (e) => {
+				if (!reactContainer.contains(e.relatedTarget)) {
+					reactContainer.style.opacity = "1";
+					reactContainer.style.pointerEvents = "auto";
+				}
 			});
 
 			// Event listener for hiding the React component container
@@ -56,6 +56,14 @@ document.addEventListener("mouseover", (event) => {
 				if (!img.parentElement.contains(e.relatedTarget)) {
 					reactContainer.style.opacity = "0";
 					reactContainer.style.pointerEvents = "none";
+				}
+			});
+
+			// Prevent the React component container from showing when hovering over the icon
+			reactContainer.addEventListener("mouseenter", (e) => {
+				if (!img.parentElement.contains(e.relatedTarget)) {
+					reactContainer.style.opacity = "1";
+					reactContainer.style.pointerEvents = "auto";
 				}
 			});
 		}
