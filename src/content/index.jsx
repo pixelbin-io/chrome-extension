@@ -1,16 +1,27 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import "./style.css";
 
 function Main() {
+	const [isModalVisible, setIsModalVisible] = useState(false);
 	return (
-		<div className="my-extension">
+		<div className="pce-my-extension">
 			<img
+				onClick={() => {
+					setIsModalVisible(true);
+				}}
 				src="https://cdn.pixelbin.io/v2/muddy-lab-41820d/original/pixb_logo_64.png"
 				alt="PixelBin AI Icon"
-				className="context-logo"
+				className="pce-context-logo"
 				style={{ width: "24px", height: "24px", cursor: "pointer" }}
 			/>
+			{isModalVisible && (
+				<div className="pce-context-modal">
+					<div>One</div>
+					<div>Two</div>
+					<div>Three</div>
+				</div>
+			)}
 		</div>
 	);
 }
