@@ -1,13 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 import "./style.css";
 
 function Main() {
 	const [isModalVisible, setIsModalVisible] = useState(false);
+	const modalRef = useRef();
+
+	useEffect(() => {
+		const handleClickOutside = (event) => {
+			if (modalRef.current && !modalRef.current.contains(event.target)) {
+				setIsModalVisible(false);
+			}
+		};
+
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, [modalRef]);
+
 	return (
 		<div className="pce-my-extension">
 			<img
-				onClick={() => {
+				onClick={(e) => {
 					setIsModalVisible(true);
 				}}
 				src="https://cdn.pixelbin.io/v2/muddy-lab-41820d/original/pixb_logo_64.png"
@@ -16,10 +31,10 @@ function Main() {
 				style={{ width: "24px", height: "24px", cursor: "pointer" }}
 			/>
 			{isModalVisible && (
-				<div className="pce-context-modal">
-					<div>One</div>
-					<div>Two</div>
-					<div>Three</div>
+				<div className="pce-context-modal" ref={modalRef}>
+					<div className="pce-menu-item">Erase.bg</div>
+					<div className="pce-menu-item">WatermarkRemover.io</div>
+					<div className="pce-menu-item">Upscale.media</div>
 				</div>
 			)}
 		</div>
