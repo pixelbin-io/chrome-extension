@@ -25,10 +25,16 @@ function Main({ imageData }) {
 		// Add any additional actions here
 	};
 
+	const handleIconClick = (event) => {
+		event.stopPropagation();
+		event.preventDefault();
+		setIsModalVisible(true);
+	};
+
 	return (
 		<div className="pce-my-extension">
 			<img
-				onClick={() => setIsModalVisible(true)}
+				onClick={handleIconClick}
 				src="https://cdn.pixelbin.io/v2/muddy-lab-41820d/original/pixb_logo_64.png"
 				alt="PixelBin AI Icon"
 				className="pce-context-logo"
