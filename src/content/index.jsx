@@ -20,6 +20,8 @@ function Main({ imageData }) {
 	}, [modalRef]);
 
 	const handleMenuItemClick = (item) => {
+		event.stopPropagation();
+		event.preventDefault();
 		console.log("Image Data:", imageData);
 		console.log("Menu Item Clicked:", item);
 		// Add any additional actions here
@@ -83,7 +85,7 @@ document.addEventListener("mouseover", (event) => {
 			reactContainer.style.position = "absolute";
 			reactContainer.style.bottom = "10px";
 			reactContainer.style.right = "10px";
-			reactContainer.style.zIndex = "100000";
+			reactContainer.style.zIndex = "2147483647"; // Increase z-index
 
 			img.style.position = "relative";
 			img.parentElement.style.position = "relative";
