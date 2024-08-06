@@ -83,12 +83,14 @@ document.addEventListener("mouseover", (event) => {
 			const reactContainer = document.createElement("div");
 			reactContainer.id = "react-container";
 			reactContainer.style.position = "absolute";
-			reactContainer.style.bottom = "10px";
-			reactContainer.style.right = "10px";
+			reactContainer.style.height = "100%";
+			reactContainer.style.width = "100%";
+			reactContainer.style.top = "0";
+			reactContainer.style.left = "0";
 			reactContainer.style.zIndex = "2147483647"; // Increase z-index
 
-			img.style.position = "relative";
-			img.parentElement.style.position = "relative";
+			// img.style.position = "relative";
+			// img.parentElement.style.position = "relative";
 			img.parentElement.appendChild(reactContainer);
 
 			const imageData = {
