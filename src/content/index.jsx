@@ -22,9 +22,31 @@ function Main({ imageData }) {
 	const handleMenuItemClick = (item) => {
 		event.stopPropagation();
 		event.preventDefault();
+
 		console.log("Image Data:", imageData);
 		console.log("Menu Item Clicked:", item);
-		// Add any additional actions here
+
+		let url;
+		switch (item) {
+			case "Erase.bg":
+				url = "https://www.erase.bg/upload";
+				break;
+			case "WatermarkRemover.io":
+				url = "https://www.watermarkremover.io/upload";
+				break;
+			case "Shrink.media":
+				url = "https://www.shrink.media/upload";
+				break;
+			case "Upscale.media":
+				url = "https://www.upscale.media/upload";
+				break;
+			default:
+				break;
+		}
+
+		if (url) {
+			window.location.href = url;
+		}
 	};
 
 	const handleIconClick = (event) => {
@@ -44,30 +66,27 @@ function Main({ imageData }) {
 			/>
 			{isModalVisible && (
 				<div className="pce-context-modal" ref={modalRef}>
-					<div
-						className="pce-menu-item"
-						onClick={() => handleMenuItemClick("Erase.bg")}
-					>
+					<a className="pce-menu-item" href={handleMenuItemClick("Erase.bg")}>
 						Erase.bg
-					</div>
-					<div
+					</a>
+					<a
 						className="pce-menu-item"
-						onClick={() => handleMenuItemClick("WatermarkRemover.io")}
+						href={handleMenuItemClick("WatermarkRemover.io")}
 					>
 						WatermarkRemover.io
-					</div>
-					<div
+					</a>
+					<a
 						className="pce-menu-item"
-						onClick={() => handleMenuItemClick("Shrink.media")}
+						href={handleMenuItemClick("Shrink.media")}
 					>
 						Shrink.media
-					</div>
-					<div
+					</a>
+					<a
 						className="pce-menu-item"
-						onClick={() => handleMenuItemClick("Upscale.media")}
+						href={handleMenuItemClick("Upscale.media")}
 					>
 						Upscale.media
-					</div>
+					</a>
 				</div>
 			)}
 		</div>
