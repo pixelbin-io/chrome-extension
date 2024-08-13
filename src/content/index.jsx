@@ -28,6 +28,9 @@ function Main({ imageData }) {
 
 		let url;
 		switch (item) {
+			case "PixelBin.io":
+				url = "https://local.pixelbinz0.de:9090/organization/6796/chrome-ext";
+				break;
 			case "Erase.bg":
 				url = "https://www.erase.bg/upload";
 				break;
@@ -45,7 +48,7 @@ function Main({ imageData }) {
 		}
 
 		if (url) {
-			window.location.href = url;
+			window.open(url, "_blank");
 		}
 	};
 
@@ -66,6 +69,12 @@ function Main({ imageData }) {
 			/>
 			{isModalVisible && (
 				<div className="pce-context-modal" ref={modalRef}>
+					<a
+						className="pce-menu-item"
+						href={handleMenuItemClick("PixelBin.io")}
+					>
+						PixelBin.io
+					</a>
 					<a className="pce-menu-item" href={handleMenuItemClick("Erase.bg")}>
 						Erase.bg
 					</a>
@@ -77,15 +86,15 @@ function Main({ imageData }) {
 					</a>
 					<a
 						className="pce-menu-item"
-						href={handleMenuItemClick("Shrink.media")}
-					>
-						Shrink.media
-					</a>
-					<a
-						className="pce-menu-item"
 						href={handleMenuItemClick("Upscale.media")}
 					>
 						Upscale.media
+					</a>
+					<a
+						className="pce-menu-item"
+						href={handleMenuItemClick("Shrink.media")}
+					>
+						Shrink.media
 					</a>
 				</div>
 			)}
@@ -98,7 +107,7 @@ export default Main;
 document.addEventListener("mouseover", (event) => {
 	const img = event.target;
 	if (img.tagName === "IMG" && img.width > 50 && img.height > 50) {
-		if (!img.parentElement.querySelector("#react-container")) {
+		if (!img.parentElement.querySelector("#pce-react-container")) {
 			const reactContainer = document.createElement("div");
 			reactContainer.id = "react-container";
 			reactContainer.style.position = "absolute";
@@ -106,7 +115,7 @@ document.addEventListener("mouseover", (event) => {
 			reactContainer.style.width = "100%";
 			reactContainer.style.top = "0";
 			reactContainer.style.left = "0";
-			reactContainer.style.zIndex = "2147483647"; // Increase z-index
+			reactContainer.style.zIndex = "999999"; // Increase z-index
 
 			// img.style.position = "relative";
 			// img.parentElement.style.position = "relative";
