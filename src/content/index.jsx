@@ -7,6 +7,10 @@ function Main({ imageData }) {
 	const modalRef = useRef();
 
 	useEffect(() => {
+		console.log("THIS IS THE IAMGE DATA", imageData);
+	}, []);
+
+	useEffect(() => {
 		const handleClickOutside = (event) => {
 			if (modalRef.current && !modalRef.current.contains(event.target)) {
 				setIsModalVisible(false);
@@ -19,7 +23,7 @@ function Main({ imageData }) {
 		};
 	}, [modalRef]);
 
-	const handleMenuItemClick = (item) => {
+	const handleMenuItemClick = (event, item) => {
 		event.stopPropagation();
 		event.preventDefault();
 
@@ -69,33 +73,36 @@ function Main({ imageData }) {
 			/>
 			{isModalVisible && (
 				<div className="pce-context-modal" ref={modalRef}>
-					<a
+					<div
 						className="pce-menu-item"
-						href={handleMenuItemClick("PixelBin.io")}
+						onClick={(e) => handleMenuItemClick(e, "PixelBin.io")}
 					>
 						PixelBin.io
-					</a>
-					<a className="pce-menu-item" href={handleMenuItemClick("Erase.bg")}>
-						Erase.bg
-					</a>
-					<a
+					</div>
+					<div
 						className="pce-menu-item"
-						href={handleMenuItemClick("WatermarkRemover.io")}
+						onClick={(e) => handleMenuItemClick(e, "Erase.bg")}
+					>
+						Erase.bg
+					</div>
+					<div
+						className="pce-menu-item"
+						onClick={(e) => handleMenuItemClick(e, "WatermarkRemover.io")}
 					>
 						WatermarkRemover.io
-					</a>
-					<a
+					</div>
+					<div
 						className="pce-menu-item"
-						href={handleMenuItemClick("Upscale.media")}
+						onClick={(e) => handleMenuItemClick(e, "Upscale.media")}
 					>
 						Upscale.media
-					</a>
-					<a
+					</div>
+					<div
 						className="pce-menu-item"
-						href={handleMenuItemClick("Shrink.media")}
+						onClick={(e) => handleMenuItemClick(e, "Shrink.media")}
 					>
 						Shrink.media
-					</a>
+					</div>
 				</div>
 			)}
 		</div>
@@ -109,7 +116,7 @@ document.addEventListener("mouseover", (event) => {
 	if (img.tagName === "IMG" && img.width > 50 && img.height > 50) {
 		if (!img.parentElement.querySelector("#pce-react-container")) {
 			const reactContainer = document.createElement("div");
-			reactContainer.id = "react-container";
+			reactContainer.id = "pce-react-container";
 			reactContainer.style.position = "absolute";
 			reactContainer.style.height = "100%";
 			reactContainer.style.width = "100%";
@@ -126,6 +133,7 @@ document.addEventListener("mouseover", (event) => {
 				alt: img.alt,
 				width: img.width,
 				height: img.height,
+				AllData: img,
 			};
 
 			ReactDOM.render(<Main imageData={imageData} />, reactContainer);
