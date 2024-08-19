@@ -7,10 +7,6 @@ function Main({ imageData }) {
 	const modalRef = useRef();
 
 	useEffect(() => {
-		console.log("THIS IS THE IAMGE DATA", imageData);
-	}, []);
-
-	useEffect(() => {
 		const handleClickOutside = (event) => {
 			if (modalRef.current && !modalRef.current.contains(event.target)) {
 				setIsModalVisible(false);
@@ -27,25 +23,26 @@ function Main({ imageData }) {
 		event.stopPropagation();
 		event.preventDefault();
 
-		console.log("Image Data:", imageData);
-		console.log("Menu Item Clicked:", item);
-
 		let url;
 		switch (item) {
 			case "PixelBin.io":
-				url = "https://local.pixelbinz0.de:9090/organization/6796/chrome-ext";
+				url = encodeURI(
+					`https://local.pixelbinz0.de:9090/choose-org?redirectTo=chrome-ext?external_url=${imageData.src}`
+				);
 				break;
 			case "Erase.bg":
-				url = "https://www.erase.bg/upload";
+				url = encodeURI(`https://www.erasez0.de/upload?url=${imageData.src}`);
 				break;
 			case "WatermarkRemover.io":
-				url = "https://www.watermarkremover.io/upload";
+				url = encodeURI(
+					`https://www.watermarkremoverz0.de/upload?url=${imageData.src}`
+				);
 				break;
 			case "Shrink.media":
-				url = "https://www.shrink.media/upload";
+				url = encodeURI(`https://www.shrinkz0.de/upload?url=${imageData.src}`);
 				break;
 			case "Upscale.media":
-				url = "https://www.upscale.media/upload";
+				url = encodeURI(`https://www.upscalez0.de/upload?url=${imageData.src}`);
 				break;
 			default:
 				break;
