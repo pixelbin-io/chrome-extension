@@ -27,7 +27,7 @@ function Main({ imageData }) {
 		switch (item) {
 			case "PixelBin.io":
 				url = encodeURI(
-					`https://local.pixelbinz0.de:9090/choose-org?redirectTo=chrome-ext?external_url=${imageData.src}`
+					`https://pixelbinz0.de/choose-org?redirectTo=chrome-ext?external_url=${imageData.src}`
 				);
 				break;
 			case "Erase.bg":
