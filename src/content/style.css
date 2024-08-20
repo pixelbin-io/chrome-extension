@@ -1,51 +1,58 @@
 #pce-react-container {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-	z-index: 99999 !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	z-index: 999999 !important;
 }
 
 .pce-my-extension {
-	position: absolute;
-	width: 32px;
-	height: 32px;
-	overflow: visible;
-	bottom: 1px;
-	right: 1px;
+	position: absolute !important;
+	width: 32px !important;
+	height: 32px !important;
+	overflow: visible !important;
+	bottom: 1px !important;
+	right: 1px !important;
 }
 .pce-context-logo {
-	width: 24px;
-	height: 24px;
-	cursor: pointer;
-	background: rgba(255, 255, 255, 0.5);
-	background-color: rgba(0, 0, 0);
-	border-radius: 4px;
-	z-index: 88888 !important;
+	width: 24px !important;
+	height: 24px !important;
+	cursor: pointer !important;
+	background: rgba(255, 255, 255, 0.5) !important;
+	background-color: rgba(0, 0, 0) !important;
+	border-radius: 4px !important;
+	z-index: 999999 !important;
 }
 
 .pce-context-modal {
-	display: flex;
-	flex-direction: column;
-	background-color: rgba(0, 0, 0);
-	color: #e8eaed;
-	padding: 12px;
-	border-radius: 8px;
-	position: absolute;
-	right: 35px;
-	bottom: 0px;
-	/* bottom: -110px;  */
-	z-index: 77777 !important; /* Increase z-index */
-	box-sizing: border-box;
+	display: flex !important;
+	flex-direction: column !important;
+	background-color: rgba(0, 0, 0) !important;
+	color: #e8eaed !important;
+	padding: 12px !important;
+	border-radius: 8px !important;
+	position: absolute !important;
+	right: 35px !important;
+	bottom: 0px !important;
+	z-index: 999999 !important;
+	box-sizing: border-box !important;
 }
 
 .pce-menu-item {
-	padding: 4px;
-	cursor: pointer;
-	border-radius: 4px;
+	padding: 4px !important;
+	cursor: pointer !important;
+	border-radius: 4px !important;
 	font-size: 12px !important;
 	text-align: left !important;
+	min-height: 16px !important;
+	display: flex !important;
+	flex-direction: column !important;
+	justify-content: center !important;
 }
 
 .pce-menu-item:hover {
-	background-color: rgb(53, 52, 52);
+	background-color: rgb(53, 52, 52) !important;
+}
+
+.pce-menu-item-internal-container {
+	margin: 4px !important;
 }

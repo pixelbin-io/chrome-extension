@@ -7,19 +7,6 @@ function Main({ imageData }) {
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const modalRef = useRef();
 
-	useEffect(() => {
-		const handleClickOutside = (event) => {
-			if (modalRef.current && !modalRef.current.contains(event.target)) {
-				setIsModalVisible(false);
-			}
-		};
-
-		document.addEventListener("mousedown", handleClickOutside);
-		return () => {
-			document.removeEventListener("mousedown", handleClickOutside);
-		};
-	}, [modalRef]);
-
 	const handleMenuItemClick = (event, item) => {
 		event.stopPropagation();
 		event.preventDefault();
@@ -46,6 +33,9 @@ function Main({ imageData }) {
 				url = encodeURI(`https://www.upscalez0.de/upload?url=${imageData.src}`);
 				break;
 			default:
+				encodeURI(
+					`https://console.pixelbinz0.de/choose-org?redirectTo=chrome-ext?external_url=${imageData.src}`
+				);
 				break;
 		}
 
