@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
+import logo from "../../public/pixb_logo.png";
 import "./style.css";
 
 function Main({ imageData }) {
@@ -63,7 +64,7 @@ function Main({ imageData }) {
 		<div className="pce-my-extension">
 			<img
 				onClick={handleIconClick}
-				src="https://cdn.pixelbin.io/v2/muddy-lab-41820d/original/pixb_logo_64.png"
+				src={logo}
 				alt="PixelBin AI Icon"
 				className="pce-context-logo"
 				style={{ width: "24px", height: "24px", cursor: "pointer" }}
