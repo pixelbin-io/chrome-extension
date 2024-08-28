@@ -40,6 +40,10 @@ export default defineConfig({
 					dest: "node_modules/xyzWidget/dist",
 				},
 				{
+					src: "src/content/assets",
+					dest: ".",
+				},
+				{
 					src: "src/content/style.css",
 					dest: ".",
 					rename: "content.css",

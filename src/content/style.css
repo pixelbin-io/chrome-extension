@@ -2,7 +2,34 @@
 	margin: 0 !important;
 	padding: 0 !important;
 	box-sizing: border-box !important;
+	z-index: 999988 !important;
+}
+
+.pce-disable-button {
+	width: 13px !important;
+	height: 13px !important;
+	border-radius: 6px;
+	position: absolute;
+	top: -7px;
+	right: 2px;
+	cursor: pointer;
+	background-color: rgba(0, 0, 0) !important;
+}
+.pce-disable-tooltip {
+	background-color: rgb(44, 44, 44) !important;
+	position: absolute;
+	top: -34px;
+	right: -40px;
+	padding: 4px;
+	border-radius: 6px;
+	font-size: 12px;
+	color: white;
+	text-wrap: nowrap;
 	z-index: 999999 !important;
+}
+
+.pce-disable-button:hover {
+	background-color: rgb(94, 92, 92) !important;
 }
 
 .pce-my-extension {
@@ -20,7 +47,8 @@
 	background: rgba(255, 255, 255, 0.5) !important;
 	background-color: rgba(0, 0, 0) !important;
 	border-radius: 4px !important;
-	z-index: 999999 !important;
+	z-index: 999988 !important;
+	margin-right: 4px;
 }
 
 .pce-context-modal {
@@ -28,13 +56,19 @@
 	flex-direction: column !important;
 	background-color: rgba(0, 0, 0) !important;
 	color: #e8eaed !important;
-	padding: 12px !important;
+	padding: 2px !important;
 	border-radius: 8px !important;
 	position: absolute !important;
 	right: 35px !important;
 	bottom: 0px !important;
-	z-index: 999999 !important;
+	z-index: 999988 !important;
 	box-sizing: border-box !important;
+	gap: 4px;
+}
+
+.pce-menu-item-icon {
+	width: 16px !important;
+	height: 16px !important;
 }
 
 .pce-menu-item {
@@ -43,10 +77,12 @@
 	border-radius: 4px !important;
 	font-size: 12px !important;
 	text-align: left !important;
-	min-height: 16px !important;
+	min-height: 22px !important;
 	display: flex !important;
-	flex-direction: column !important;
-	justify-content: center !important;
+	gap: 10px;
+	justify-content: flex-start !important;
+	text-wrap: nowrap;
+	align-items: center;
 }
 
 .pce-menu-item:hover {

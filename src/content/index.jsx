@@ -1,43 +1,66 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import ReactDOM from "react-dom";
-import logo from "../../public/pixb_logo.png";
+import mainLogo from "../../public/pixb_logo.png";
+import PbLogo from "./assets/PixelBin.svg";
+import ebgLogo from "./assets/EraseBG.svg";
+import smLogo from "./assets/ShrinkMedia.svg";
+import umLogo from "./assets/UpscaleMedia.svg";
+import wmrLogo from "./assets/WMRemover.svg";
+import cross from "./assets/cross_white.png";
 import "./style.css";
+
+const menuItems = [
+	{
+		name: "PixelBin.io",
+		url: "https://console.pixelbinz0.de/choose-org?redirectTo=chrome-ext?external_url=",
+		displayName: "Edit Image",
+		logo: PbLogo,
+	},
+	{
+		name: "Erase.bg",
+		url: "https://www.erasez0.de/upload?url=",
+		displayName: "Remove Background",
+		logo: ebgLogo,
+	},
+	{
+		name: "WatermarkRemover.io",
+		url: "https://www.watermarkremoverz0.de/upload?url=",
+		displayName: "Remove Watermark",
+		logo: wmrLogo,
+	},
+	{
+		name: "Upscale.media",
+		url: "https://www.upscalez0.de/upload?url=",
+		displayName: "Upscale Image",
+		logo: umLogo,
+	},
+	{
+		name: "Shrink.media",
+		url: "https://www.shrinkz0.de/upload?url=",
+		displayName: "Image Optimise",
+		logo: smLogo,
+	},
+];
 
 function Main({ imageData }) {
 	const [isModalVisible, setIsModalVisible] = useState(false);
+	const [isCloseBtnVisible, setIsCloseBtnVisible] = useState(false);
+	const [isDsableToolTipVisible, setIsDiableToolTipVisible] = useState(false);
 	const modalRef = useRef();
 
-	const handleMenuItemClick = (event, item) => {
+	document
+		.getElementById("pce-react-container")
+		.addEventListener("mouseleave", (e) => {
+			setIsModalVisible(false);
+		});
+
+	const handleMenuItemClick = (event, name) => {
 		event.stopPropagation();
 		event.preventDefault();
 
-		let url;
-		switch (item) {
-			case "PixelBin.io":
-				url = encodeURI(
-					`https://console.pixelbinz0.de/choose-org?redirectTo=chrome-ext?external_url=${imageData.src}`
-				);
-				break;
-			case "Erase.bg":
-				url = encodeURI(`https://www.erasez0.de/upload?url=${imageData.src}`);
-				break;
-			case "WatermarkRemover.io":
-				url = encodeURI(
-					`https://www.watermarkremoverz0.de/upload?url=${imageData.src}`
-				);
-				break;
-			case "Shrink.media":
-				url = encodeURI(`https://www.shrinkz0.de/upload?url=${imageData.src}`);
-				break;
-			case "Upscale.media":
-				url = encodeURI(`https://www.upscalez0.de/upload?url=${imageData.src}`);
-				break;
-			default:
-				encodeURI(
-					`https://console.pixelbinz0.de/choose-org?redirectTo=chrome-ext?external_url=${imageData.src}`
-				);
-				break;
-		}
+		let foundIndex = menuItems.findIndex((item) => item.name === name);
+
+		let url = menuItems[foundIndex].url + imageData.src;
 
 		if (url) {
 			window.open(url, "_blank");
@@ -52,45 +75,44 @@ function Main({ imageData }) {
 
 	return (
 		<div className="pce-my-extension">
+			{isDsableToolTipVisible && (
+				<div className="pce-disable-tooltip">Disable for this site</div>
+			)}
+			{isCloseBtnVisible && (
+				<img
+					src={cross}
+					className="pce-disable-button"
+					onMouseEnter={() => {
+						setIsCloseBtnVisible(true);
+						setIsDiableToolTipVisible(true);
+					}}
+					onMouseLeave={() => {
+						setIsCloseBtnVisible(false);
+						setIsDiableToolTipVisible(false);
+					}}
+				/>
+			)}
 			<img
 				onClick={handleIconClick}
-				src={logo}
+				src={mainLogo}
 				alt="PixelBin AI Icon"
 				className="pce-context-logo"
-				style={{ width: "24px", height: "24px", cursor: "pointer" }}
+				onMouseEnter={() => setIsCloseBtnVisible(true)}
+				onMouseLeave={() => setIsCloseBtnVisible(false)}
 			/>
 			{isModalVisible && (
 				<div className="pce-context-modal" ref={modalRef}>
-					<div
-						className="pce-menu-item"
-						onClick={(e) => handleMenuItemClick(e, "PixelBin.io")}
-					>
-						PixelBin.io
-					</div>
-					<div
-						className="pce-menu-item"
-						onClick={(e) => handleMenuItemClick(e, "Erase.bg")}
-					>
-						Erase.bg
-					</div>
-					<div
-						className="pce-menu-item"
-						onClick={(e) => handleMenuItemClick(e, "WatermarkRemover.io")}
-					>
-						WatermarkRemover.io
-					</div>
-					<div
-						className="pce-menu-item"
-						onClick={(e) => handleMenuItemClick(e, "Upscale.media")}
-					>
-						Upscale.media
-					</div>
-					<div
-						className="pce-menu-item"
-						onClick={(e) => handleMenuItemClick(e, "Shrink.media")}
-					>
-						Shrink.media
-					</div>
+					{menuItems.map((item) => {
+						return (
+							<div
+								className="pce-menu-item"
+								onClick={(e) => handleMenuItemClick(e, item.name)}
+							>
+								<img src={item.logo} className="pce-menu-item-icon" />
+								<div>{item.displayName}</div>
+							</div>
+						);
+					})}
 				</div>
 			)}
 		</div>
@@ -100,6 +122,16 @@ function Main({ imageData }) {
 export default Main;
 
 document.addEventListener("mouseover", (event) => {
+	if (
+		location.hostname.includes("pixelbin") ||
+		location.hostname.includes("erase") ||
+		location.hostname.includes("watermark") ||
+		location.hostname.includes("shrinkz") ||
+		location.hostname.includes("upscale")
+	) {
+		return;
+	}
+
 	const img = event.target;
 	if (img.tagName === "IMG" && img.width > 50 && img.height > 50) {
 		if (!img.parentElement.querySelector("#pce-react-container")) {
@@ -110,10 +142,8 @@ document.addEventListener("mouseover", (event) => {
 			reactContainer.style.width = "100%";
 			reactContainer.style.top = "0";
 			reactContainer.style.left = "0";
-			reactContainer.style.zIndex = "999999"; // Increase z-index
+			reactContainer.style.zIndex = "999999";
 
-			// img.style.position = "relative";
-			// img.parentElement.style.position = "relative";
 			img.parentElement.appendChild(reactContainer);
 
 			const imageData = {

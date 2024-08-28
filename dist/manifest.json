@@ -5,7 +5,7 @@
 	"background": {
 		"service_worker": "background.js"
 	},
-	"permissions": ["contextMenus", "activeTab", "scripting", "tabs"],
+	"permissions": ["contextMenus", "activeTab", "scripting", "tabs", "storage"],
 	"host_permissions": ["https://*/*", "http://*/*", "<all_urls>"],
 	"icons": {
 		"32": "pixb_logo.png",
