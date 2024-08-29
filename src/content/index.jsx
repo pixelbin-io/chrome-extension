@@ -46,7 +46,14 @@ function Main({ imageData }) {
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [isCloseBtnVisible, setIsCloseBtnVisible] = useState(false);
 	const [isDsableToolTipVisible, setIsDiableToolTipVisible] = useState(false);
+	const [isDsibaleClicked, setIsDiabledClicked] = useState(false);
 	const modalRef = useRef();
+
+	chrome.storage.onChanged.addListener((changes, namespace) => {
+		if (namespace === "local" && changes.disabledSites) {
+			setIsDiabledClicked(true);
+		}
+	});
 
 	document
 		.getElementById("pce-react-container")
@@ -73,15 +80,34 @@ function Main({ imageData }) {
 		setIsModalVisible(true);
 	};
 
+	const handleDisableButtonClick = (event) => {
+		event.stopPropagation();
+		event.preventDefault();
+		const currentSite = window.location.hostname;
+		// Get the current list of disabled sites from chrome.storage.local
+		chrome.storage.local.get(["disabledSites"], (result) => {
+			let disabledSites = result.disabledSites || [];
+			if (!disabledSites.includes(currentSite)) {
+				disabledSites.push(currentSite);
+				// Save the updated list back to chrome.storage.local
+				chrome.storage.local.set({ disabledSites }, () => {
+					console.log("Site disabled: ", currentSite);
+				});
+			}
+		});
+		setIsModalVisible(false);
+	};
+
 	return (
 		<div className="pce-my-extension">
-			{isDsableToolTipVisible && (
+			{isDsableToolTipVisible && !isDsibaleClicked && (
 				<div className="pce-disable-tooltip">Disable for this site</div>
 			)}
-			{isCloseBtnVisible && (
+			{isCloseBtnVisible && !isDsibaleClicked && (
 				<img
 					src={cross}
 					className="pce-disable-button"
+					onClick={(e) => handleDisableButtonClick(e)}
 					onMouseEnter={() => {
 						setIsCloseBtnVisible(true);
 						setIsDiableToolTipVisible(true);
@@ -92,15 +118,17 @@ function Main({ imageData }) {
 					}}
 				/>
 			)}
-			<img
-				onClick={handleIconClick}
-				src={mainLogo}
-				alt="PixelBin AI Icon"
-				className="pce-context-logo"
-				onMouseEnter={() => setIsCloseBtnVisible(true)}
-				onMouseLeave={() => setIsCloseBtnVisible(false)}
-			/>
-			{isModalVisible && (
+			{!isDsibaleClicked && (
+				<img
+					onClick={handleIconClick}
+					src={mainLogo}
+					alt="PixelBin AI Icon"
+					className="pce-context-logo"
+					onMouseEnter={() => setIsCloseBtnVisible(true)}
+					onMouseLeave={() => setIsCloseBtnVisible(false)}
+				/>
+			)}
+			{isModalVisible && !isDsibaleClicked && (
 				<div className="pce-context-modal" ref={modalRef}>
 					{menuItems.map((item) => {
 						return (
@@ -121,19 +149,31 @@ function Main({ imageData }) {
 
 export default Main;
 
-document.addEventListener("mouseover", (event) => {
-	if (
-		location.hostname.includes("pixelbin") ||
-		location.hostname.includes("erase") ||
-		location.hostname.includes("watermark") ||
-		location.hostname.includes("shrinkz") ||
-		location.hostname.includes("upscale")
-	) {
-		return;
+let disabledSites = [];
+chrome.storage.local.get(["disabledSites"], (result) => {
+	disabledSites = result.disabledSites.length ? result.disabledSites : [];
+});
+chrome.storage.onChanged.addListener((changes, namespace) => {
+	if (namespace === "local" && changes.disabledSites) {
+		disabledSites = changes.disabledSites.newValue || [];
 	}
+});
 
+document.addEventListener("mouseover", (event) => {
 	const img = event.target;
 	if (img.tagName === "IMG" && img.width > 50 && img.height > 50) {
+		if (
+			location.hostname.includes("pixelbin") ||
+			location.hostname.includes("erase") ||
+			location.hostname.includes("watermark") ||
+			location.hostname.includes("shrinkz") ||
+			location.hostname.includes("upscale")
+		) {
+			return;
+		}
+
+		if (disabledSites?.includes(location.hostname)) return;
+
 		if (!img.parentElement.querySelector("#pce-react-container")) {
 			const reactContainer = document.createElement("div");
 			reactContainer.id = "pce-react-container";
