@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import ReactDOM from "react-dom";
-import mainLogo from "../../public/pixb_logo.png";
+import mainLogo from "./assets/pixelbin-storage.png";
 import PbLogo from "./assets/PixelBin.svg";
 import ebgLogo from "./assets/EraseBG.svg";
 import smLogo from "./assets/ShrinkMedia.svg";
@@ -77,7 +77,7 @@ function Main({ imageData }) {
 	const handleIconClick = (event) => {
 		event.stopPropagation();
 		event.preventDefault();
-		setIsModalVisible(true);
+		setIsModalVisible(!isModalVisible);
 	};
 
 	const handleDisableButtonClick = (event) => {
