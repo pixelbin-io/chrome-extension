@@ -28,6 +28,12 @@
 	z-index: 999999 !important;
 }
 
+.pce-disable-tooltip {
+	position: fixed; /* Ensures the tooltip is fixed */
+	display: none; /* Initially hidden */
+	/* Additional styling for your tooltip */
+}
+
 .pce-disable-button:hover {
 	background-color: rgb(94, 92, 92) !important;
 }

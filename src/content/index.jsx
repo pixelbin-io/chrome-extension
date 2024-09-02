@@ -159,6 +159,40 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 	}
 });
 
+const setTooltipPosition = () => {
+	const button = document.querySelector(".pce-disable-button");
+	const tooltip = document.querySelector(".pce-disable-tooltip");
+
+	if (button && tooltip) {
+		const buttonRect = button.getBoundingClientRect();
+
+		// Calculate the center position of the button
+		const buttonCenterX = buttonRect.left + buttonRect.width / 2;
+
+		// Calculate the tooltip position
+		const tooltipWidth = tooltip.offsetWidth;
+		const tooltipHeight = tooltip.offsetHeight;
+
+		// Set tooltip to be centered above the button
+		tooltip.style.left = `${buttonCenterX - tooltipWidth / 2}px`;
+		tooltip.style.top = `${buttonRect.top - tooltipHeight}px`;
+	}
+};
+
+// Call this function when the button is visible or the tooltip needs to be shown
+document
+	.querySelector(".pce-disable-button")
+	?.addEventListener("mouseenter", () => {
+		setTooltipPosition();
+		document.querySelector(".pce-disable-tooltip").style.display = "block"; // Show tooltip
+	});
+
+document
+	.querySelector(".pce-disable-button")
+	?.addEventListener("mouseleave", () => {
+		document.querySelector(".pce-disable-tooltip").style.display = "none"; // Hide tooltip
+	});
+
 document.addEventListener("mouseover", (event) => {
 	const img = event.target;
 	if (img.tagName === "IMG" && img.width > 50 && img.height > 50) {
@@ -177,13 +211,18 @@ document.addEventListener("mouseover", (event) => {
 		if (!img.parentElement.querySelector("#pce-react-container")) {
 			const reactContainer = document.createElement("div");
 			reactContainer.id = "pce-react-container";
-			reactContainer.style.position = "absolute";
-			reactContainer.style.height = "100%";
-			reactContainer.style.width = "100%";
-			reactContainer.style.top = "0";
-			reactContainer.style.left = "0";
-			reactContainer.style.zIndex = "999999";
 
+			// Set the container’s style to match the image’s style
+			reactContainer.style.position = "absolute";
+			reactContainer.style.width = `${img.width}px`;
+			reactContainer.style.height = `${img.height}px`;
+			reactContainer.style.top = `${img.offsetTop}px`;
+			reactContainer.style.left = `${img.offsetLeft}px`;
+			reactContainer.style.zIndex = "999999";
+			reactContainer.style.pointerEvents = "none"; // So it doesn’t block mouse events to the image
+
+			// Append container directly over the image
+			img.parentElement.style.position = "relative"; // Make sure parent is positioned relatively
 			img.parentElement.appendChild(reactContainer);
 
 			const imageData = {

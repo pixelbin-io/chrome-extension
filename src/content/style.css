@@ -104,3 +104,9 @@
 .pce-menu-item-internal-container {
 	margin: 4px !important;
 }
+
+.pce-disable-tooltip {
+	position: fixed; /* Ensures the tooltip is fixed */
+	display: none; /* Initially hidden */
+	/* Additional styling for your tooltip */
+}
