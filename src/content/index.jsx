@@ -12,33 +12,45 @@ import "./style.css";
 const menuItems = [
 	{
 		name: "PixelBin.io",
-		url: "https://console.pixelbinz0.de/choose-org?redirectTo=chrome-ext?external_url=",
+		url: "https://console.pixelbinz0.de/choose-org?redirectTo=chrome-ext",
 		displayName: "Edit Image",
 		logo: PbLogo,
+		utmParams: "",
+		// utmParams: "&utm_source=chrome&utm_medium=plugin&utm_campaign=pixelbinio",
+		imgParamName: "&external_url=",
 	},
 	{
 		name: "Erase.bg",
-		url: "https://www.erasez0.de/upload?url=",
+		url: "https://www.erasez0.de/upload",
 		displayName: "Remove Background",
 		logo: ebgLogo,
+		utmParams: "?utm_source=chrome&utm_medium=plugin&utm_campaign=erasebg",
+		imgParamName: "&url=",
 	},
 	{
 		name: "WatermarkRemover.io",
-		url: "https://www.watermarkremoverz0.de/upload?url=",
+		url: "https://www.watermarkremoverz0.de/upload",
 		displayName: "Remove Watermark",
 		logo: wmrLogo,
+		utmParams:
+			"?utm_source=chrome&utm_medium=plugin&utm_campaign=watermarkremoverio",
+		imgParamName: "&url=",
 	},
 	{
 		name: "Upscale.media",
-		url: "https://www.upscalez0.de/upload?url=",
+		url: "https://www.upscalez0.de/upload",
 		displayName: "Upscale Image",
 		logo: umLogo,
+		utmParams: "?utm_source=chrome&utm_medium=plugin&utm_campaign=upscalemedia",
+		imgParamName: "&url=",
 	},
 	{
 		name: "Shrink.media",
-		url: "https://www.shrinkz0.de/upload?url=",
+		url: "https://www.shrinkz0.de/upload",
 		displayName: "Image Optimise",
 		logo: smLogo,
+		utmParams: "?utm_source=chrome&utm_medium=plugin&utm_campaign=shrinkmedia",
+		imgParamName: "&url=",
 	},
 ];
 
@@ -67,7 +79,11 @@ function Main({ imageData }) {
 
 		let foundIndex = menuItems.findIndex((item) => item.name === name);
 
-		let url = menuItems[foundIndex].url + imageData.src;
+		let url =
+			menuItems[foundIndex].url +
+			menuItems[foundIndex].utmParams +
+			menuItems[foundIndex].imgParamName +
+			imageData.src;
 
 		if (url) {
 			window.open(url, "_blank");
