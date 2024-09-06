@@ -194,10 +194,10 @@ document.addEventListener("mouseover", (event) => {
 			const reactContainer = document.createElement("div");
 			reactContainer.id = "pce-react-container";
 			reactContainer.style.position = "absolute";
-			reactContainer.style.height = "100%";
-			reactContainer.style.width = "100%";
-			reactContainer.style.top = "0";
-			reactContainer.style.left = "0";
+			reactContainer.style.height = "32px";
+			reactContainer.style.width = "32px";
+			// reactContainer.style.top = "0";
+			// reactContainer.style.left = "0";
 			reactContainer.style.zIndex = "999999";
 
 			img.parentElement.appendChild(reactContainer);
@@ -211,6 +211,22 @@ document.addEventListener("mouseover", (event) => {
 			};
 
 			ReactDOM.render(<Main imageData={imageData} />, reactContainer);
+
+			const positionReactContainer = () => {
+				const top = img.offsetTop + img.height - 32; // Relative to parent
+				const left = img.offsetLeft + img.width - 32; // Relative to parent
+
+				// Apply the calculated top and left positions
+				reactContainer.style.top = `${top}px`;
+				reactContainer.style.left = `${left}px`;
+			};
+
+			// Initial positioning
+			positionReactContainer();
+
+			// Re-position the container when the window is resized or scrolled
+			window.addEventListener("resize", positionReactContainer);
+			window.addEventListener("scroll", positionReactContainer);
 
 			img.parentElement.addEventListener("mouseenter", (e) => {
 				if (!reactContainer.contains(e.relatedTarget)) {
