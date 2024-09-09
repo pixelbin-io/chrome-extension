@@ -195,7 +195,7 @@ document.addEventListener("mouseover", (event) => {
 
 		// Remove the previous reactContainer if it exists
 		if (currentReactContainer) {
-			currentReactContainer.parentElement.removeChild(currentReactContainer);
+			currentReactContainer?.parentElement?.removeChild(currentReactContainer);
 			currentReactContainer = null;
 		}
 
@@ -248,7 +248,7 @@ document.addEventListener("mouseover", (event) => {
 					reactContainer.style.pointerEvents = "none";
 					setTimeout(() => {
 						if (!reactContainer.contains(document.activeElement)) {
-							reactContainer.parentElement.removeChild(reactContainer);
+							reactContainer?.parentElement?.removeChild(reactContainer);
 							currentReactContainer = null;
 						}
 					}, 200); // Delay to ensure the mouse has fully left the element
