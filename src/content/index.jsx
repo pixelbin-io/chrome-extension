@@ -67,11 +67,11 @@ function Main({ imageData }) {
 		}
 	});
 
-	document
-		.getElementById("pce-react-container")
-		.addEventListener("mouseleave", (e) => {
-			setIsModalVisible(false);
-		});
+	// document
+	// 	.getElementById("pce-react-container")
+	// 	.addEventListener("mouseleave", (e) => {
+	// 		setIsModalVisible(false);
+	// 	});
 
 	const handleMenuItemClick = (event, name) => {
 		event.stopPropagation();
@@ -195,7 +195,7 @@ document.addEventListener("mouseover", (event) => {
 			reactContainer.id = "pce-react-container";
 			reactContainer.style.position = "absolute";
 			reactContainer.style.height = "32px";
-			reactContainer.style.width = "32px";
+			reactContainer.style.width = "38px";
 			// reactContainer.style.top = "0";
 			// reactContainer.style.left = "0";
 			reactContainer.style.zIndex = "999999";
@@ -228,33 +228,33 @@ document.addEventListener("mouseover", (event) => {
 			window.addEventListener("resize", positionReactContainer);
 			window.addEventListener("scroll", positionReactContainer);
 
-			img.parentElement.addEventListener("mouseenter", (e) => {
+			img.addEventListener("mouseenter", (e) => {
 				if (!reactContainer.contains(e.relatedTarget)) {
 					reactContainer.style.opacity = "1";
 					reactContainer.style.pointerEvents = "auto";
 				}
 			});
 
-			img.parentElement.addEventListener("mouseleave", (e) => {
+			img.addEventListener("mouseleave", (e) => {
 				if (!reactContainer.contains(e.relatedTarget)) {
 					reactContainer.style.opacity = "0";
 					reactContainer.style.pointerEvents = "none";
 				}
 			});
 
-			reactContainer.addEventListener("mouseleave", (e) => {
-				if (!img.parentElement.contains(e.relatedTarget)) {
-					reactContainer.style.opacity = "0";
-					reactContainer.style.pointerEvents = "none";
-				}
-			});
+			// reactContainer.addEventListener("mouseleave", (e) => {
+			// 	if (!img.parentElement.contains(e.relatedTarget)) {
+			// 		reactContainer.style.opacity = "0";
+			// 		reactContainer.style.pointerEvents = "none";
+			// 	}
+			// });
 
-			reactContainer.addEventListener("mouseenter", (e) => {
-				if (!img.parentElement.contains(e.relatedTarget)) {
-					reactContainer.style.opacity = "1";
-					reactContainer.style.pointerEvents = "auto";
-				}
-			});
+			// reactContainer.addEventListener("mouseenter", (e) => {
+			// 	if (!img.parentElement.contains(e.relatedTarget)) {
+			// 		reactContainer.style.opacity = "1";
+			// 		reactContainer.style.pointerEvents = "auto";
+			// 	}
+			// });
 		}
 	}
 });
