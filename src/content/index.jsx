@@ -175,8 +175,11 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 	}
 });
 
+let currentReactContainer = null;
+
 document.addEventListener("mouseover", (event) => {
 	const img = event.target;
+
 	if (img.tagName === "IMG" && img.width > 50 && img.height > 50) {
 		if (
 			location.hostname.includes("pixelbin") ||
@@ -190,14 +193,18 @@ document.addEventListener("mouseover", (event) => {
 
 		if (disabledSites?.includes(location.hostname)) return;
 
+		// Remove the previous reactContainer if it exists
+		if (currentReactContainer) {
+			currentReactContainer.parentElement.removeChild(currentReactContainer);
+			currentReactContainer = null;
+		}
+
 		if (!img.parentElement.querySelector("#pce-react-container")) {
 			const reactContainer = document.createElement("div");
 			reactContainer.id = "pce-react-container";
 			reactContainer.style.position = "absolute";
 			reactContainer.style.height = "32px";
 			reactContainer.style.width = "38px";
-			// reactContainer.style.top = "0";
-			// reactContainer.style.left = "0";
 			reactContainer.style.zIndex = "999999";
 
 			img.parentElement.appendChild(reactContainer);
@@ -239,22 +246,17 @@ document.addEventListener("mouseover", (event) => {
 				if (!reactContainer.contains(e.relatedTarget)) {
 					reactContainer.style.opacity = "0";
 					reactContainer.style.pointerEvents = "none";
+					setTimeout(() => {
+						if (!reactContainer.contains(document.activeElement)) {
+							reactContainer.parentElement.removeChild(reactContainer);
+							currentReactContainer = null;
+						}
+					}, 200); // Delay to ensure the mouse has fully left the element
 				}
 			});
 
-			// reactContainer.addEventListener("mouseleave", (e) => {
-			// 	if (!img.parentElement.contains(e.relatedTarget)) {
-			// 		reactContainer.style.opacity = "0";
-			// 		reactContainer.style.pointerEvents = "none";
-			// 	}
-			// });
-
-			// reactContainer.addEventListener("mouseenter", (e) => {
-			// 	if (!img.parentElement.contains(e.relatedTarget)) {
-			// 		reactContainer.style.opacity = "1";
-			// 		reactContainer.style.pointerEvents = "auto";
-			// 	}
-			// });
+			// Update the currentReactContainer reference
+			currentReactContainer = reactContainer;
 		}
 	}
 });
