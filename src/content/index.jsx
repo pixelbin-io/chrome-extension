@@ -12,12 +12,11 @@ import "./style.css";
 const menuItems = [
 	{
 		name: "PixelBin.io",
-		url: "https://console.pixelbinz0.de/choose-org?redirectTo=chrome-ext",
+		url: "https://console.pixelbinz0.de?utm_source=chrome&utm_medium=plugin&utm_campaign=pixelbinio/choose-org&redirectTo=chrome-ext",
 		displayName: "Edit Image",
 		logo: PbLogo,
 		utmParams: "",
-		// utmParams: "&utm_source=chrome&utm_medium=plugin&utm_campaign=pixelbinio",
-		imgParamName: "&external_url=",
+		imgParamName: "?external_url=",
 	},
 	{
 		name: "Erase.bg",
@@ -67,23 +66,82 @@ function Main({ imageData }) {
 		}
 	});
 
-	// document
-	// 	.getElementById("pce-react-container")
-	// 	.addEventListener("mouseleave", (e) => {
-	// 		setIsModalVisible(false);
-	// 	});
-
-	const handleMenuItemClick = (event, name) => {
+	const handleMenuItemClick = async (event, name) => {
 		event.stopPropagation();
 		event.preventDefault();
+		setIsModalVisible(false);
+		let imageURL = "";
+		// On prod we will require real time API key for this
+		const YOUR_PIXELBIN_API_KEY = btoa("fa6701e2-5377-44b7-94b2-dd0b58e59730");
+		// Function to convert base64 string to Blob
+		function base64ToBlob(base64String, mimeType = "") {
+			const byteCharacters = atob(base64String.split(",")[1]); // Decode base64 string
+			const byteNumbers = new Array(byteCharacters.length);
+			for (let i = 0; i < byteCharacters.length; i++) {
+				byteNumbers[i] = byteCharacters.charCodeAt(i);
+			}
+			const byteArray = new Uint8Array(byteNumbers);
+			return new Blob([byteArray], { type: mimeType });
+		}
+
+		// Function to upload the file to PixelBin using Fetch API
+		async function uploadImage(formData) {
+			const response = await fetch(
+				"https://api.pixelbinz0.de/service/platform/assets/v1.0/upload/direct",
+				{
+					method: "POST",
+					headers: {
+						Authorization: `Bearer ${YOUR_PIXELBIN_API_KEY}`, // Replace with your actual PixelBin API key
+					},
+					body: formData,
+				}
+			);
+
+			if (!response.ok) {
+				throw new Error(`Upload failed: ${response.statusText}`);
+			}
+
+			return await response.json();
+		}
+
+		async function init(base64String) {
+			try {
+				// Convert the base64 string to Blob
+				const blob = base64ToBlob(base64String, "image/jpeg"); // Adjust MIME type if necessary
+
+				// Prepare the FormData
+				const formData = new FormData();
+				formData.append("file", blob, "image.png"); // Append blob to the form data
+				formData.append("filenameOverride", true);
+
+				// Call the PixelBin API to upload the file
+				const uploadResponse = await uploadImage(formData);
+
+				console.log("Upload Response:", uploadResponse);
+				imageURL = await uploadResponse?.url;
+			} catch (error) {
+				console.error("Upload failed:", error);
+			}
+		}
 
 		let foundIndex = menuItems.findIndex((item) => item.name === name);
+
+		if (imageData.src.includes("base64")) {
+			const size = new Blob([imageData.src]).size / (1024 * 1024);
+			if (size > 4.9) {
+				alert("Image too large");
+				return;
+			}
+			await init(imageData.src);
+		} else {
+			imageURL = imageData.src;
+		}
 
 		let url =
 			menuItems[foundIndex].url +
 			menuItems[foundIndex].utmParams +
 			menuItems[foundIndex].imgParamName +
-			imageData.src;
+			imageURL;
 
 		if (url) {
 			window.open(url, "_blank");
@@ -220,7 +278,7 @@ document.addEventListener("mouseover", (event) => {
 			ReactDOM.render(<Main imageData={imageData} />, reactContainer);
 
 			const positionReactContainer = () => {
-				const top = img.offsetTop + img.height - 32; // Relative to parent
+				const top = img.offsetTop + img.height - 32;
 				const left = img.offsetLeft + img.width - 32; // Relative to parent
 
 				// Apply the calculated top and left positions
