@@ -20,7 +20,7 @@ const menuItems = [
 	},
 	{
 		name: "Erase.bg",
-		url: "https://www.erasez0.de/upload",
+		url: "https://www.erase.bg/upload",
 		displayName: "Remove Background",
 		logo: ebgLogo,
 		utmParams: "?utm_source=chrome&utm_medium=plugin&utm_campaign=erasebg",
@@ -28,7 +28,7 @@ const menuItems = [
 	},
 	{
 		name: "WatermarkRemover.io",
-		url: "https://www.watermarkremoverz0.de/upload",
+		url: "https://www.watermarkremover.io/upload",
 		displayName: "Remove Watermark",
 		logo: wmrLogo,
 		utmParams:
@@ -37,7 +37,7 @@ const menuItems = [
 	},
 	{
 		name: "Upscale.media",
-		url: "https://www.upscalez0.de/upload",
+		url: "https://www.upscale.media/upload",
 		displayName: "Upscale Image",
 		logo: umLogo,
 		utmParams: "?utm_source=chrome&utm_medium=plugin&utm_campaign=upscalemedia",
@@ -45,7 +45,7 @@ const menuItems = [
 	},
 	{
 		name: "Shrink.media",
-		url: "https://www.shrinkz0.de/upload",
+		url: "https://www.shrink.media/upload",
 		displayName: "Image Optimise",
 		logo: smLogo,
 		utmParams: "?utm_source=chrome&utm_medium=plugin&utm_campaign=shrinkmedia",
@@ -243,7 +243,7 @@ document.addEventListener("mouseover", (event) => {
 			location.hostname.includes("pixelbin") ||
 			location.hostname.includes("erase") ||
 			location.hostname.includes("watermark") ||
-			location.hostname.includes("shrinkz") ||
+			location.hostname.includes("shrink") ||
 			location.hostname.includes("upscale")
 		) {
 			return;
