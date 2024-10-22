@@ -4,7 +4,6 @@ import "../../node_modules/xyzWidget/dist/bundle.js";
 window.pixelbin.createMediaLibrary(
 	{
 		dev: true,
-		cloud_name: "polished-hat-8f9bd4",
 		pixelbinURL: "https://console.pixelbinz0.de",
 		remove_header: false,
 		max_files: "1",
@@ -33,12 +32,12 @@ window.pixelbin.createMediaLibrary(
 											activeElement.tagName === "INPUT" &&
 											activeElement.type === "text"
 										) {
-											activeElement.value = url;
+											activeElement.innerHTML += url + "\n"
 										} else if (
 											activeElement &&
 											activeElement.isContentEditable
 										) {
-											activeElement.innerHTML = url;
+											activeElement.innerHTML += url + "\n"; 
 										} else {
 											alert("Active element is not editable");
 										}
