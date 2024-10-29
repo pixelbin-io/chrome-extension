@@ -5,6 +5,14 @@
 	z-index: 999988 !important;
 }
 
+#pce-shadow-plane{
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	z-index: 9999999;
+	background-color: green;
+}
+
 .pce-disable-button {
 	width: 13px !important;
 	height: 13px !important;
@@ -42,6 +50,7 @@
 }
 .pce-context-logo {
 	width: 24px !important;
+	position: relative !important;
 	height: 24px !important;
 	cursor: pointer !important;
 	border-radius: 4px !important;
@@ -49,20 +58,23 @@
 	margin-right: 4px;
 }
 
+.pce-container-plane{
+	color:red;
+}
+
 .pce-context-modal {
 	display: flex !important;
 	flex-direction: column !important;
-	background-color: rgba(0, 0, 0) !important;
+	background-color: rgba(0, 0, 0) !important; 
 	color: #e8eaed !important;
 	padding: 2px !important;
 	border-radius: 8px !important;
-	position: absolute !important;
-	right: 35px !important;
-	bottom: 0px !important;
-	z-index: 999988 !important;
+	/* right: 35px !important;
+	bottom: 0px !important; */
+	z-index: 999999 !important;
 	box-sizing: border-box !important;
 	gap: 4px;
-
+	position: absolute;
 	/* Animation properties */
 	animation: fadeInUp 0.2s ease-out;
 }

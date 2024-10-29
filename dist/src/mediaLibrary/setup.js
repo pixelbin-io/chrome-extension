@@ -6,7 +6,7 @@ window.pixelbin.createMediaLibrary(
 		dev: true,
 		pixelbinURL: "https://console.pixelbinz0.de",
 		remove_header: false,
-		max_files: "1",
+		max_files: "3",
 		insert_caption: "Insert",
 		inline_container: "#widget_container",
 		default_transformations: [[]],

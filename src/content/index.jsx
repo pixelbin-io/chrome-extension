@@ -1,3 +1,4 @@
+import '@webcomponents/custom-elements';
 import React, { useState, useRef } from "react";
 import ReactDOM from "react-dom";
 import mainLogo from "./assets/pixelbin-storage.png";
@@ -8,6 +9,39 @@ import umLogo from "./assets/UpscaleMedia.svg";
 import wmrLogo from "./assets/WMRemover.svg";
 import cross from "./assets/cross_white.png";
 import "./style.css";
+import { createPortal } from 'react-dom';
+
+
+
+class ContainerPlane extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" });
+    this.shadowRoot.innerHTML = this.UIGenerator();
+  }
+
+  UIGenerator() {
+    return `
+      <style>
+        #pce-host-tag {
+          color: grey;
+          height: 100vh;
+          width: 100vw;
+          position: fixed;
+          top: 0;
+          left: 0;
+          z-index: 999988;
+        }
+      </style>
+      <div id="pce-host-tag">
+        <slot name="contextMenu"></slot>
+      </div>
+    `;
+  }
+}
+
+customElements.define("container-plane", ContainerPlane);
+
 
 const menuItems = [
 	{
@@ -53,11 +87,15 @@ const menuItems = [
 	},
 ];
 
+	
+
 function Main({ imageData }) {
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [isCloseBtnVisible, setIsCloseBtnVisible] = useState(false);
 	const [isDsableToolTipVisible, setIsDiableToolTipVisible] = useState(false);
 	const [isDsibaleClicked, setIsDiabledClicked] = useState(false);
+	const [ iconClickY, setIconClickY ] = useState(0)
+	const [ iconClickX,setIconClickX ] = useState(0)
 	const modalRef = useRef();
 
 	chrome.storage.onChanged.addListener((changes, namespace) => {
@@ -65,6 +103,16 @@ function Main({ imageData }) {
 			setIsDiabledClicked(true);
 		}
 	});
+
+	window.addEventListener('scroll', function () {
+		  const app = document.getElementById("pce-react-container");
+		  const plane = document.getElementById("pce-host-tag");
+
+		  if (app && app.parentNode) app.parentNode.removeChild(app);
+		if (plane && plane.parentNode) plane.parentNode.removeChild(plane);
+		setIsModalVisible(false);
+
+	  });
 
 	const handleMenuItemClick = async (event, name) => {
 		event.stopPropagation();
@@ -103,6 +151,10 @@ function Main({ imageData }) {
 
 			return await response.json();
 		}
+
+
+
+
 
 		async function init(base64String) {
 			try {
@@ -146,13 +198,36 @@ function Main({ imageData }) {
 		if (url) {
 			window.open(url, "_blank");
 		}
+
+		const app = document.getElementById("pce-react-container");
+	    if (app && app.parentNode) app.parentNode.removeChild(app);
 	};
 
-	const handleIconClick = (event) => {
-		event.stopPropagation();
-		event.preventDefault();
-		setIsModalVisible(!isModalVisible);
-	};
+const handleIconClick = (event) => {
+    event.stopPropagation();
+	event.preventDefault();
+	
+	let X = event.clientX - 158;
+	let Y = event.clientY - 163; 
+
+	if (X < 0) X = X + 190
+	if (Y < 0) Y = Y + 110
+		
+	if (!isModalVisible)
+	{
+		setIconClickX(X)
+	    setIconClickY(Y)
+	}
+	
+    setIsModalVisible(!isModalVisible);
+};
+	
+	
+	const handkeBackdropClick = () => {
+		setIsModalVisible(false);
+	const app = document.getElementById("pce-react-container");
+	if (app && app.parentNode) app.parentNode.removeChild(app);
+	}
 
 	const handleDisableButtonClick = (event) => {
 		event.stopPropagation();
@@ -202,21 +277,25 @@ function Main({ imageData }) {
 					onMouseLeave={() => setIsCloseBtnVisible(false)}
 				/>
 			)}
-			{isModalVisible && !isDsibaleClicked && (
-				<div className="pce-context-modal" ref={modalRef}>
-					{menuItems.map((item) => {
-						return (
-							<div
-								className="pce-menu-item"
-								onClick={(e) => handleMenuItemClick(e, item.name)}
-							>
-								<img src={item.logo} className="pce-menu-item-icon" />
-								<div>{item.displayName}</div>
-							</div>
-						);
-					})}
-				</div>
-			)}
+			{ isModalVisible && !isDsibaleClicked && 
+                 createPortal(<container-plane onClick={handkeBackdropClick}>
+					<div slot="contextMenu" className="pce-context-modal" ref={ modalRef } style={ { top: `${ iconClickY }px`, left: `${ iconClickX }px` } }>
+						{ menuItems.map((item) => {
+							return (
+								<div
+									className="pce-menu-item"
+									onClick={ (e) => handleMenuItemClick(e, item.name) }
+								>
+									<img src={ item.logo } className="pce-menu-item-icon" />
+									<div>{ item.displayName }</div>
+								</div>
+							);
+						}) }
+						
+					</div>
+				</container-plane>,document.body)
+				
+			}
 		</div>
 	);
 }
