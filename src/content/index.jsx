@@ -339,12 +339,12 @@ document.addEventListener("mouseover", (event) => {
 		if (!img.parentElement.querySelector("#pce-react-container")) {
 			const reactContainer = document.createElement("div");
 			reactContainer.id = "pce-react-container";
-			reactContainer.style.position = "absolute";
+			reactContainer.style.position = "fixed";
 			reactContainer.style.height = "32px";
 			reactContainer.style.width = "38px";
 			reactContainer.style.zIndex = "999999";
 
-			img.parentElement.appendChild(reactContainer);
+			document.body.appendChild(reactContainer);
 
 			const imageData = {
 				src: img.src,
@@ -357,10 +357,9 @@ document.addEventListener("mouseover", (event) => {
 			ReactDOM.render(<Main imageData={imageData} />, reactContainer);
 
 			const positionReactContainer = () => {
-				const top = img.offsetTop + img.height - 32;
-				const left = img.offsetLeft + img.width - 32; // Relative to parent
-
-				// Apply the calculated top and left positions
+				const rect = img.getBoundingClientRect();
+				const top = rect.bottom - 38;
+				const left = rect.right - 38;
 				reactContainer.style.top = `${top}px`;
 				reactContainer.style.left = `${left}px`;
 			};
