@@ -207,15 +207,23 @@ const handleIconClick = (event) => {
     event.stopPropagation();
 	event.preventDefault();
 	
+	// Below Calculation is based on current height i.e 143px width i.e 158px of context menu pop-up 
 	let X = event.clientX - 158;
 	let Y = event.clientY - 163; 
+
+	pixbLogo = document.getElementById('pce-context-logo').getBoundingClientRect();
+	const top = pixbLogo.top ;
+	const left = pixbLogo.left;
+	
+	X = (X - (event.clientX - left)) + 10;
+	Y = (Y - (event.clientY - top)) + 16;
 
 	if (X < 0) X = X + 190
 	if (Y < 0) Y = Y + 110
 		
 	if (!isModalVisible)
 	{
-		setIconClickX(X)
+		setIconClickX(X - 10)
 	    setIconClickY(Y)
 	}
 	
@@ -272,7 +280,7 @@ const handleIconClick = (event) => {
 					onClick={handleIconClick}
 					src={mainLogo}
 					alt="PixelBin AI Icon"
-					className="pce-context-logo"
+					id="pce-context-logo"
 					onMouseEnter={() => setIsCloseBtnVisible(true)}
 					onMouseLeave={() => setIsCloseBtnVisible(false)}
 				/>
