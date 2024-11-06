@@ -18,7 +18,7 @@ Pixelbin chrome extension have two major use cases for user
 
 - **`manifest.json`** : It posses all the details and permissions for the content access in chrome and host permissions.
 
-- **`Service worker`** : background/index.js is a service worker and adds PixelBin.io` option in context menu.
+- **`Service worker`** : background/index.js is a service worker and adds PixelBin.io`s option in context menu.
 
 - **`Content File`** : content/index.js have all the code for image hovering action which basically edits the content on current page in chrome.
 
