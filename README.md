@@ -1,30 +1,44 @@
-# React + TypeScript + Vite
+# PixelBin.io Chrome Extension
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Uses
 
-Currently, two official plugins are available:
+Pixelbin chrome extension have two major use cases for user
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. When user hover over any image, **`PixelBin.io`**'s logo appears as a clickable icon. Clicking it allows you to transform the hovered image using PixelBin.io or apply any available free  property.
 
-## Expanding the ESLint configuration
+2. Right-clicking inside any text input shows a **`PixelBin.io`** option. Selecting it opens an iframe with PixelBin.io's storage page, allowing users to insert image URLs or perform other storage-related actions directly in the input field.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Installation
 
-- Configure the top-level `parserOptions` property like this:
+1. In chrome on top right corner click on puzzle icon and then click on chrome webstore option.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+2. In chrome web store search for **`PixelBin.io`** and click on add to chrome.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Project Structure
+
+- **`manifest.json`** : It posses all the details and permissions for the content access in chrome and host permissions.
+
+- **`Service worker`** : background/index.js is a service worker and adds PixelBin.io` option in context menu.
+
+- **`Content File`** : content/index.js have all the code for image hovering action which basically edits the content on current page in chrome.
+
+- **`Media Library`** : Contains all the details required for opeining the iframe using media library package.
+
+## Development Process
+
+**Clone Repository**:
+
+    git clone https://github.com/pixelbin-io/chrome-extension
+
+**Install Dependencies**:
+
+    npm install
+
+**Build the Plugin**:
+
+    npm run build
+
+**Add to Chrome**:
+
+- In Chrome, click on the puzzle icon in the top right.
+- Click on load unpacked and select the dist folder from extension's folder directory. 
