@@ -42,3 +42,4 @@ Pixelbin chrome extension have two major use cases for user
 
 - In Chrome, click on the puzzle icon in the top right.
 - Click on load unpacked and select the dist folder from extension's folder directory. 
+- After any code changes we need to re run "npm run build" and refresh extension in chrome from `chrome://extensions/` page. Also refresh current webpage.
