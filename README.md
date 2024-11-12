@@ -32,7 +32,14 @@ Pixelbin chrome extension have two major use cases for user
 
 **Install Dependencies**:
 
+    Note : (Until media library sdk is released) Clone media-lib repo on same level of this repo and run "npm run build" in it  
+
+    Repo link for media-lib-sdk `https://github.com/pixelbin-io/media-library-widget` use branch -> fix/remove-button
+
+    then run
+
     npm install
+ 
 
 **Build the Plugin**:
 

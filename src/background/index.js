@@ -5,7 +5,7 @@ chrome.runtime.onInstalled.addListener(() => {
 	chrome.contextMenus.create(
 		{
 			id: "openInFrame",
-			title: "PixelBin.io",
+			title: "Insert media URL from PixelBin",
 			contexts: ["editable", "image"],
 		},
 		() => {
